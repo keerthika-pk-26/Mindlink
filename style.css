@@ -110,4 +110,37 @@ button:hover {
   background: linear-gradient(135deg, #5a67d8, #6b46c1);
   transform: scale(1.05);
 }
+/* Your existing styles above... */
+
+/* MOBILE RESPONSIVENESS */
+@media (max-width: 600px) {
+  .canvas-container {
+    width: 95% !important;
+    padding: 15px !important;
+  }
+
+  canvas {
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  .tools {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .tools button, .tools input {
+    width: 100%;
+  }
+
+  .template-box img {
+    width: 80px;
+    height: 80px;
+    margin: 5px;
+  }
+
+  h1, p {
+    font-size: 1.2rem;
+  }
+}
 
