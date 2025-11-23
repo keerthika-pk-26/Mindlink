@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Level 2 – Release Your Balloons</title>
+<style>
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(180deg, #a8d8ff, #dff6ff, #ffffff);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+}
+
+h1 {
+  font-size: 2.2em;
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 1.2em;
+  color: #3a3a3a;
+  margin-bottom: 25px;
+  max-width: 80%;
+}
+
+.worries-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+
+.worries-container input {
+  width: 120px;
+  height: 120px;
+  text-align: center;
+  border-radius: 25px;
+  border: 2px solid #6c63ff;
+  font-size: 1em;
+  padding: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.worries-container input:focus {
+  transform: scale(1.1);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  outline: none;
+  border-color: #5148e0;
+}
+
+button {
+  background: #6c63ff;
+  color: white;
+  border: none;
+  padding: 14px 30px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 1.1em;
+  transition: 0.3s;
+  margin-top: 10px;
+}
+
+button:hover { background: #5148e0; }
+
+/* Balloon style */
+.balloon {
+  position: absolute;
+  bottom: 0;
+  width: 70px;
+  min-height: 90px;
+  max-height: 120px;
+  padding: 8px 10px;
+  background-color: #ff6b6b;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50% 50% 50% 50% / 65% 65% 35% 35%;
+  line-height: 1.2em;
+  word-wrap: break-word;
+  cursor: pointer;
+  animation: rise linear forwards;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.balloon::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 10px;
+  background: inherit;
+  border-radius: 2px;
+}
+
+/* Pop animation */
+@keyframes pop {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.3); opacity: 0.7; }
+  100% { transform: scale(0); opacity: 0; }
+}
+
+/* Rise animation (slower) */
+@keyframes rise {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-100vh); }
+}
+
+#message {
+  font-size: 1.5em;
+  color: #2c3e50;
+  margin-top: 20px;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+/* LEVEL 3 BOX */
+#level3-box {
+  margin-top: 20px;
+  opacity: 0;
+  transition: opacity 1s;
+  display: none;
+}
+
+#level3-box a {
+  background: #00b894;
+  color: white;
+  padding: 14px 30px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-size: 1.2em;
+}
+
+#level3-box a:hover {
+  background: #019872;
+}
+</style>
+</head>
+<body>
+
+<h1>🎈 Level 2 – Release Your Balloons</h1>
+<p>Type your worries below. Press "Release All" to let them fly away!</p>
+
+<div class="worries-container">
+  <input type="text" placeholder="Worry 1">
+  <input type="text" placeholder="Worry 2">
+  <input type="text" placeholder="Worry 3">
+  <input type="text" placeholder="Worry 4">
+  <input type="text" placeholder="Worry 5">
+</div>
+
+<button onclick="releaseAll()">Release All</button>
+
+<div id="message">Your worries are flown away 🌸</div>
+
+<!-- LEVEL 3 BUTTON -->
+<div id="level3-box">
+  <a href="level3.html">Go to Level 3 ➜</a>
+</div>
+
+<!-- Balloon Pop Sound -->
+<audio id="popSound">
+  <source src="balloon-pop-93436.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const colors = ["#ff6b6b", "#ff9f1c", "#2ec4b6", "#e71d36", "#6a4c93", "#ffbf69"];
+let activeBalloons = 0;
+const usedPositions = [];
+const popSound = document.getElementById("popSound");
+
+function getNonOverlappingPosition() {
+  let pos;
+  let tries = 0;
+  do {
+    pos = Math.random() * 60 + 20; // 20vw to 80vw
+    tries++;
+  } while (usedPositions.some(p => Math.abs(p - pos) < 8) && tries < 20);
+  usedPositions.push(pos);
+  return pos;
+}
+
+function releaseAll() {
+  const inputs = document.querySelectorAll(".worries-container input");
+  usedPositions.length = 0;
+  inputs.forEach(input => {
+    const text = input.value.trim();
+    if (!text) return;
+
+    const balloon = document.createElement("div");
+    balloon.className = "balloon";
+    balloon.textContent = text;
+
+    // Random color
+    balloon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+
+    // Non-overlapping position
+    balloon.style.left = getNonOverlappingPosition() + "vw";
+
+    // Slow rise
+    const duration = 12 + Math.random() * 4;
+    balloon.style.animationDuration = duration + "s";
+
+    activeBalloons++;
+
+    // When balloon flies away
+    balloon.addEventListener("animationend", () => {
+      balloon.remove();
+      activeBalloons--;
+      checkAllBalloonsGone();
+    });
+
+    // Pop on click
+    balloon.addEventListener("click", () => {
+      popSound.currentTime = 0;
+      popSound.play();
+      balloon.style.animation = "pop 0.5s forwards";
+      setTimeout(() => {
+        balloon.remove();
+        activeBalloons--;
+        checkAllBalloonsGone();
+      }, 500);
+    });
+
+    document.body.appendChild(balloon);
+    input.value = "";
+  });
+}
+
+function checkAllBalloonsGone() {
+  if (activeBalloons === 0) {
+    document.getElementById("message").style.opacity = 1;
+
+    let box = document.getElementById("level3-box");
+    box.style.display = "block";
+
+    setTimeout(() => {
+      box.style.opacity = 1;
+    }, 100);
+  }
+}
+</script>
+
+
+</body>
+</html>

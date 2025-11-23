@@ -1,0 +1,126 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #a8edea, #fed6e3); /* calm blue-pink like your first one */
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.chat-container {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  width: 400px;
+  max-width: 90%;
+  padding: 20px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+}
+
+.chat-box {
+  height: 400px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+}
+
+.bot-message, .user-message {
+  padding: 10px 14px;
+  border-radius: 18px;
+  max-width: 80%;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.bot-message {
+  background-color: #f1f0f0;
+  align-self: flex-start;
+}
+
+.user-message {
+  background-color: #4a90e2;
+  color: white;
+  align-self: flex-end;
+}
+
+.input-area {
+  display: flex;
+  margin-top: 10px;
+}
+
+.input-area input {
+  flex: 1;
+  border: none;
+  border-radius: 20px;
+  padding: 10px;
+  outline: none;
+  font-size: 14px;
+}
+
+.input-area button {
+  margin-left: 10px;
+  background-color: #4a90e2;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 15px;
+  color: rgb(240, 239, 245);
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.input-area button:hover {
+  background-color: #357ABD;
+}
+
+.typing {
+  font-style: italic;
+  color: #333;
+  background-color: #f1f0f0;
+  align-self: flex-start;
+  padding: 10px 14px;
+  border-radius: 18px;
+}
+
+.level-button {
+  display: inline-block;
+  margin-top: 15px;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  padding: 8px 15px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.level-button:hover {
+  background-color: #357ABD;
+}
+
+/* Suggestion buttons at bottom */
+.suggestions {
+  display: flex;
+  justify-content: space-around;
+  margin: 10px 0;
+}
+
+.suggestions button {
+  background-color: #ffffffaa;
+  border: 1px solid #4a90e2;
+  border-radius: 15px;
+  padding: 6px 10px;
+  font-size: 13px;
+  color: #333;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.suggestions button:hover {
+  background-color: #4a90e2;
+  color: white;
+}

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Level 3 – Nature Emotion Therapy</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(180deg, #a8d8ff, #dff6ff, #ffffff);
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+}
+
+/* Floating bubbles */
+.bubble {
+  position: absolute;
+  bottom: -100px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  animation: floatUp linear infinite;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(0) scale(1); opacity: 1; }
+  100% { transform: translateY(-120vh) scale(1.3); opacity: 0; }
+}
+
+h1 {
+  color: #2c3e50;
+  font-size: 2.3em;
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 1.3em;
+  color: #070707;
+  margin-bottom: 20px;
+}
+
+/* Emotion grid */
+.emotion-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 180px);
+  gap: 35px 25px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.box {
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.25);
+  cursor: pointer;
+  transition: 0.3s;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.box:hover {
+  transform: scale(1.07);
+}
+
+.box h3 {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.box p {
+  font-size: 0.95em;
+  font-style:oblique;
+  margin-top: 8px;
+  text-align: center;
+  display: none; /* Hide quote initially */
+}
+
+/* Level 4 Button */
+#nextBtn {
+  margin-top: 25px;
+  padding: 12px 30px;
+  background: #00b894;
+  border: none;
+  border-radius: 25px;
+  font-size: 1.1em;
+  color: white;
+  cursor: pointer;
+  display: none;
+}
+
+#nextBtn:hover {
+  background: #019872;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🌿 Level 3 – Nature Emotion Therapy</h1>
+<p>Tap an emotion to hear the nature sound your mind needs</p>
+
+<div class="emotion-grid">
+  <div class="box" onclick="playSound('sad', '#a8dadc', 'Let it out… rain washes pain away')" id="sadBox">
+    <h3>😔 Sad</h3>
+    <p></p>
+  </div>
+
+  <div class="box" onclick="playSound('angry', '#ffadad', 'Let the waterfall cool your fire')" id="angryBox">
+    <h3>😡 Angry</h3>
+    <p></p>
+  </div>
+
+  <div class="box" onclick="playSound('stressed', '#ffd6a5', 'Breathe with the forest… slow and deep')" id="stressedBox">
+    <h3>😣 Stressed</h3>
+    <p></p>
+  </div>
+
+  <div class="box" onclick="playSound('thinking', '#caffbf', 'Let the gentle waves carry your exhaustion')" id="thinkingBox">
+    <h3>🤯 Overthinking</h3>
+    <p></p>
+  </div>
+
+  <div class="box" onclick="playSound('tired', '#9bf6ff', 'Let the gentle melody carry away your fatigue')" id="tiredBox">
+    <h3>😴 Tired</h3>
+    <p></p>
+  </div>
+
+  <div class="box" onclick="playSound('lonely', '#ffc6ff', 'Even in quiet nights, nature keeps you company')" id="lonelyBox">
+    <h3>💙 Lonely</h3>
+    <p></p>
+  </div>
+</div>
+
+<button id="nextBtn" onclick="window.location.href='level4.html'">Go to Level 4 ➜</button>
+
+<!-- Nature Sounds -->
+<audio id="sad"><source src="rain-01.mp3" type="audio/mp3"></audio>
+<audio id="angry"><source src="calm-mountain-creek-ambience-228231.mp3" type="audio/mp3"></audio>
+<audio id="stressed"><source src="birds-in-the-morning-24147.mp3" type="audio/mp3"></audio>
+<audio id="thinking"><source src="ocean-beach-waves-332383.mp3" type="audio/mp3"></audio>
+<audio id="tired"><source src="emotional-soft-piano-music-413513.mp3" type="audio/mp3"></audio>
+<audio id="lonely"><source src="calm-night-312296.mp3" type="audio/mp3"></audio>
+
+<script>
+// Floating bubbles
+for (let i = 0; i < 15; i++) {
+  let b = document.createElement("div");
+  let size = Math.random() * 40 + 20;
+  b.classList.add("bubble");
+  b.style.width = size + "px";
+  b.style.height = size + "px";
+  b.style.left = Math.random() * 100 + "vw";
+  b.style.animationDuration = 8 + Math.random() * 6 + "s";
+  document.body.appendChild(b);
+}
+
+let currentAudio = null;
+let currentBox = null;
+
+function playSound(id, color, quote) {
+  const audio = document.getElementById(id);
+  const box = document.getElementById(id + "Box");
+  const p = box.querySelector("p");
+
+  // If same box clicked again, stop
+  if (currentAudio === audio && !audio.paused) {
+    audio.pause();
+    audio.currentTime = 0;
+    box.style.backgroundColor = "white";
+    p.style.display = "none";
+    currentAudio = null;
+    currentBox = null;
+    return;
+  }
+
+  // Stop previous sound
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+    if (currentBox) {
+      currentBox.style.backgroundColor = "white";
+      currentBox.querySelector("p").style.display = "none";
+    }
+  }
+
+  // Play new sound
+  audio.play();
+  currentAudio = audio;
+
+  // Show quote and highlight box
+  box.style.backgroundColor = color;
+  p.textContent = quote;
+  p.style.display = "block";
+
+  currentBox = box;
+
+  // Show Level 4 button
+  document.getElementById("nextBtn").style.display = "block";
+}
+</script>
+
+
+</body>
+</html>

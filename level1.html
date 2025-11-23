@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Level 1 Calm Yourself</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(180deg, #a8d8ff, #dff6ff, #ffffff);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+    }
+
+    .cloud {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.4);
+      border-radius: 50%;
+      animation: float 25s infinite ease-in-out;
+    }
+
+    @keyframes float {
+      0% { transform: translateX(0); opacity: 0.8; }
+      50% { transform: translateX(120px); opacity: 1; }
+      100% { transform: translateX(0); opacity: 0.8; }
+    }
+
+    h1 {
+      font-size: 2em;
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1.3em;
+      color: #3a3a3a;
+      margin-bottom: 25px;
+    }
+
+    #breathingCircle {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.9), rgba(180,210,255,0.5));
+      box-shadow: 0 0 25px rgba(120, 180, 255, 0.7);
+      display: none;
+      animation: breathe 8s infinite ease-in-out;
+      margin: 20px auto;
+    }
+
+    @keyframes breathe {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(120, 180, 255, 0.4); }
+      50% { transform: scale(1.4); box-shadow: 0 0 35px rgba(120, 180, 255, 0.8); }
+    }
+
+    button {
+      background: #6c63ff;
+      color: white;
+      border: none;
+      padding: 12px 26px;
+      border-radius: 25px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-top: 20px;
+    }
+
+    button:hover { background: #5148e0; }
+
+    #stopBtn {
+      display: none;
+      background: #ff7675;
+      position: absolute;
+      bottom: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    #stopBtn:hover { background: #e05656; }
+
+    #nextLevelBtn {
+      display: none;
+      background: #00b894;
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    #nextLevelBtn:hover { background: #019872; }
+
+    audio { display: none; }
+
+    .mood-tracker {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 25px;
+    }
+
+    .mood {
+      font-size: 2.5em;
+      cursor: pointer;
+      transition: transform 0.3s, filter 0.3s;
+    }
+
+    .mood:hover {
+      transform: scale(1.3);
+      filter: drop-shadow(0 0 10px rgba(0,0,0,0.3));
+    }
+
+    #moodResponse {
+      margin-top: 10px;
+      font-size: 1.1em;
+      color: #2c3e50;
+      min-height: 24px;
+      transition: all 0.5s;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🌿 Level 1 – Calm Yourself</h1>
+  <p>How are you feeling right now?</p>
+
+  <div class="mood-tracker">
+    <div class="mood" onclick="selectMood('happy')">😄</div>
+    <div class="mood" onclick="selectMood('calm')">😌</div>
+    <div class="mood" onclick="selectMood('sad')">😔</div>
+    <div class="mood" onclick="selectMood('excited')">🤩</div>
+    <div class="mood" onclick="selectMood('tired')">😴</div>
+    <div class="mood" onclick="selectMood('angry')">😡</div>
+  </div>
+  <div id="moodResponse"></div>
+
+  <p>Focus on your breath. Inhale... Exhale... Let your mind relax.</p>
+
+  <button id="startBtn">Start Breathing</button>
+  <div id="breathingCircle"></div>
+  <button id="stopBtn">Stop Breathing</button>
+  <button id="nextLevelBtn" onclick="window.location.href='level2.html'">Go to Level 2 ➜</button>
+
+  <!-- 🎵 Calm Breathing Music -->
+  <audio id="bgMusic" loop>
+  <source src="meditation-yoga-relaxing-music-409196.mp3" type="audio/mp3">
+</audio>
+
+  <script>
+    for (let i = 0; i < 6; i++) {
+      let cloud = document.createElement('div');
+      cloud.classList.add('cloud');
+      let size = Math.random() * 80 + 60;
+      cloud.style.width = size + 'px';
+      cloud.style.height = size + 'px';
+      cloud.style.left = Math.random() * 100 + 'vw';
+      cloud.style.top = Math.random() * 80 + 'vh';
+      cloud.style.animationDuration = 20 + Math.random() * 15 + 's';
+      document.body.appendChild(cloud);
+    }
+
+    const startBtn = document.getElementById('startBtn');
+    const stopBtn = document.getElementById('stopBtn');
+    const circle = document.getElementById('breathingCircle');
+    const nextBtn = document.getElementById('nextLevelBtn');
+    const music = document.getElementById('bgMusic');
+    const moodResponse = document.getElementById('moodResponse');
+
+    startBtn.addEventListener('click', () => {
+      startBtn.style.display = 'none';
+      stopBtn.style.display = 'inline-block';
+      circle.style.display = 'block';
+      music.play().catch(() => alert("Click allowed to play music!"));
+    });
+
+    stopBtn.addEventListener('click', () => {
+      stopBtn.style.display = 'none';
+      circle.style.display = 'none';
+      nextBtn.style.display = 'inline-block';
+      music.pause();
+      music.currentTime = 0;
+    });
+
+    function selectMood(mood) {
+      const messages = {
+        happy: "Awesome! Keep smiling 😄",
+        calm: "Perfect, stay serene 😌",
+        sad: "It's okay to feel sad 💖... brighter days are on the way 🥰",
+        excited: "Yay! Enjoy the energy 🤩",
+        tired: "Take a rest and breathe deeply 😴",
+        angry: "Cool down! You deserve peace more than anger ❤"
+      };
+      moodResponse.style.opacity = 0;
+      setTimeout(() => {
+        moodResponse.textContent = messages[mood];
+        moodResponse.style.opacity = 1;
+      }, 50);
+    }
+  </script>
+
+
+
+</body>
+</html>
