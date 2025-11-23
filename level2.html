@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<a href="dashboard.html" class="home-btn">🏠 Home</a>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Level 2 – Release Your Balloons</title>
@@ -58,7 +59,23 @@ p {
   outline: none;
   border-color: #5148e0;
 }
-
+.home-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 10px 15px;
+  background: linear-gradient(135deg, #5f5fff, #7f00ff);
+  color: white;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+.home-btn:hover {
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #6a5eff, #7e22ce);
+}
 button {
   background: #6c63ff;
   color: white;

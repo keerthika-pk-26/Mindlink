@@ -124,3 +124,20 @@ body {
   background-color: #4a90e2;
   color: white;
 }
+.home-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 10px 15px;
+  background: linear-gradient(135deg, #5f5fff, #7f00ff);
+  color: white;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+.home-btn:hover {
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #6a5eff, #7e22ce);
+}

@@ -15,8 +15,10 @@ loginForm.addEventListener("submit", function (e) {
   if (user) {
     loginMessage.style.color = "green";
     loginMessage.textContent = "Login successful! Redirecting...";
+    // Redirect to dashboard instead of first level
+
     setTimeout(() => {
-      window.location.href = "chatbot.html"; 
+      window.location.href = "dashboard.html";; 
     }, 1000);
   } else {
     loginMessage.style.color = "red";
